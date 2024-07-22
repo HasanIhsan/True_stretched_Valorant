@@ -48,11 +48,45 @@ def list_supported_resolutions():
 
     return resolutions
 
- 
+def set_resolution(width, height):
+    user32 = ctypes.windll.user32
+    devmode = DEVMODE()
+    devmode.dmSize = ctypes.sizeof(DEVMODE)
+    
+    if not user32.EnumDisplaySettingsW(None, 0, ctypes.byref(devmode)):
+        raise ctypes.WinError()
+    
+    devmode.dmPelsWidth = width
+    devmode.dmPelsHeight = height
+    devmode.dmBitsPerPel = 32  # Assuming 32-bit color depth
+    devmode.dmDisplayFrequency = 60  # Assuming 60Hz refresh rate
+    devmode.dmFields = 0x00080000 | 0x00040000 | 0x00800000 | 0x00400000  # DM_PELSWIDTH | DM_PELSHEIGHT | DM_BITSPERPEL | DM_DISPLAYFREQUENCY
+    
+    result = user32.ChangeDisplaySettingsW(ctypes.byref(devmode), 0)
+    
+    if result == 0:
+        print("Resolution changed successfully.")
+    elif result == 1:
+        print("The computer must be restarted for the graphics mode to work.")
+    elif result == -1:
+        print("The display driver failed the specified graphics mode.")
+    elif result == -2:
+        print("The graphics mode is not supported.")
+    elif result == -3:
+        print("Unable to write settings to the registry.")
+    elif result == -4:
+        print("An error was detected in the current settings.")
+    else:
+        raise ctypes.WinError(result)
+
 if __name__ == "__main__":
     resolutions = list_supported_resolutions()
     print("Supported Resolutions:")
     for res in resolutions:
         print(f"{res[0]}x{res[1]} @ {res[2]}Hz")
 
-   
+    try:
+        # Replace with a supported resolution
+        set_resolution(1024, 768)
+    except Exception as e:
+        print(f"Failed to change resolution: {e}")
