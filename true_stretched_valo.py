@@ -29,5 +29,21 @@ def get_available_resolutions():
     return list(resolutions)
 
 
+def set_resolution(width, height):
+    devmode = pywintypes.DEVMODEType()
+    devmode.PelsWidth = width
+    devmode.PelsHeight = height
+    devmode.Fields = win32con.DM_PELSWIDTH | win32con.DM_PELSHEIGHT
+
+    result = win32api.ChangeDisplaySettings(devmode, 0)
+    if result == win32con.DISP_CHANGE_SUCCESSFUL:
+        print("Resolution changed successfully.")
+    elif result == win32con.DISP_CHANGE_RESTART:
+        print("You need to restart your computer for the changes to take effect.")
+    else:
+        print("Failed to change resolution.")
+        
+        
 if __name__ == "__main__":
     print(get_available_resolutions())
+    set_resolution(1920, 1080)
