@@ -6,28 +6,29 @@ from tkinter import ttk
 
 def get_available_resolutions():
     resolutions = set()  # Use a set to avoid duplicate entries
-    display_device = win32api.EnumDisplayDevices()
+     
     
     i = 0
-    while True:
+    while True:  # Loop through display devices
         try:
-            device_name = win32api.EnumDisplayDevices(None, i)
-            if not device_name.DeviceName:
+            device_name = win32api.EnumDisplayDevices(None, i)  # Get the display device information
+            if not device_name.DeviceName:  # If no device name is found, break the loop
                 break
             
-            mode_num = 0
-            while True:
+            mode_num = 0  # Initialize the mode number to start enumerating display settings
+            while True:  # Loop through display settings for the current device
                 try:
-                    mode = win32api.EnumDisplaySettings(device_name.DeviceName, mode_num)
-                    resolution = f"{mode.PelsWidth}x{mode.PelsHeight}"
-                    resolutions.add(resolution)
-                    mode_num += 1
-                except pywintypes.error:
+                    mode = win32api.EnumDisplaySettings(device_name.DeviceName, mode_num)  # Get the display settings for the current mode
+                    resolution = f"{mode.PelsWidth}x{mode.PelsHeight}"  # Format the resolution as a string
+                    resolutions.add(resolution)  # Add the resolution to the set to avoid duplicates
+                    mode_num += 1  #   next display setting
+                except pywintypes.error:  
                     break
-            i += 1
-        except pywintypes.error:
+            i += 1  #   next display device
+        except pywintypes.error:   
             break
 
+    
     # Convert resolutions to a list of tuples (width, height)
     resolution_tuples = []
     for res in resolutions:
@@ -90,10 +91,11 @@ def on_select(event, combo):
         set_resolution(int(width), int(height))
     #set_resolution()
         
+#gui        
 def gui():
     root = tk.Tk()
-    root.title("ValorantTS_HI")
-    root.geometry("300x300")
+    root.title("ValorantTS_HI") # window lalbel
+    root.geometry("300x300") # window size
 
     root.configure(bg="#2e2e2e")
 
@@ -122,7 +124,7 @@ def gui():
 
     root.mainloop()
 
-
+# main loop
 if __name__ == "__main__":
     #print(get_available_resolutions())
     #set_resolution(1920, 1080)
