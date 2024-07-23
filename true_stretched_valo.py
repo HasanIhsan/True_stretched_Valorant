@@ -57,6 +57,39 @@ def set_resolution(width, height):
     else:
         print("Failed to change resolution.")
         
+def on_select(event, combo):
+    selected_resolution = combo.get()
+    print(f"Selected resolution: {selected_resolution}")
+    
+    
+    
+    # Split the selected_resolution into parts
+    #width, height = map(int, selected_resolution.split('x'))
+    
+    # Store the results in an array
+    #reslo = [width, height]
+    
+    # Split the selected_resolution into parts
+    parts = selected_resolution.split(' x ')
+    if len(parts) == 1:
+        #device_name = parts[0]
+        resolution = parts[0]
+        
+         
+        # Split resolution into width and height
+        width, height = resolution.split('x')
+        
+        # Store the results in an array
+       # reslo = [device_name, int(width), int(height)]
+        
+      #  print(f"Device Name: {device_name}")
+        print(f"Width: {width}")
+        print(f"Height: {height}")
+       # print(f"Resulting Array: {reslo}")
+        
+        set_resolution(int(width), int(height))
+    #set_resolution()
+        
 def gui():
     root = tk.Tk()
     root.title("ValorantTS_HI")
@@ -75,7 +108,7 @@ def gui():
     lbl_status = ttk.Label(frame, text="")
     lbl_status.grid(row=3, columnspan=2, pady=(10, 0))  # Adjust padding if needed
 
-    combobox = ttk.Combobox(frame, values=get_available_resolutions)
+    combobox = ttk.Combobox(frame, values=get_available_resolutions())
     combobox.bind("<<ComboboxSelected>>",lambda event: on_select(event, combobox)) 
     combobox.grid(row=1, column=0, columnspan=2, pady=10)  # Place combobox in row 1
     #combobox.pack(pady=10, padx=10)
