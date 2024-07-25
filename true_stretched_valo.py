@@ -1,9 +1,10 @@
 import win32api
 import win32con
 import pywintypes
+import ctypes
 import tkinter as tk
 from tkinter import ttk
-
+ 
 def get_available_resolutions():
     resolutions = set()  # Use a set to avoid duplicate entries
      
@@ -91,6 +92,22 @@ def on_select(event, combo):
         set_resolution(int(width), int(height))
     #set_resolution()
         
+# apply button
+def apply_changes(lbl_status):
+    window_title = "VALORANT  "
+    global original_style
+    window_handle = ctypes.windll.user32.FindWindowW(None, window_title)
+    if window_handle == 0:
+        lbl_status.config(text="Valorant not found")
+    else:
+        original_style = ctypes.windll.user32.GetWindowLongW(window_handle, ctypes.c_int(-16))
+        new_style = original_style & ~0x00800000 & ~0x00040000
+        ctypes.windll.user32.SetWindowLongW(window_handle, ctypes.c_int(-16), new_style)
+        ctypes.windll.user32.ShowWindow(window_handle, ctypes.c_int(3))
+        lbl_status.config(text="True stretched applied")
+     
+   
+        
 #gui        
 def gui():
     root = tk.Tk()
@@ -114,7 +131,7 @@ def gui():
     combobox.bind("<<ComboboxSelected>>",lambda event: on_select(event, combobox)) 
     combobox.grid(row=1, column=0, columnspan=2, pady=10)  # Place combobox in row 1
     #combobox.pack(pady=10, padx=10)
-    btn_apply = ttk.Button(frame, text="Apply", compound=tk.LEFT )# command=apply_changes)
+    btn_apply = ttk.Button(frame, text="Apply", compound=tk.LEFT, command=lambda: apply_changes(lbl_status))
     btn_apply.grid(row=2, column=0, pady=(10, 0))  # Place Apply button in row 2
     
     btn_unapply = ttk.Button(frame, text="Unapply", compound=tk.LEFT)# command=unapply_changes)
