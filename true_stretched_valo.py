@@ -6,9 +6,11 @@ import time
 import tkinter as tk
 from tkinter import ttk
  
+#* hard coded default values (again will try to change this so the script automaticly gets the defualt reso) 
 g_width = 1920
 g_height = 1080 
  
+#! Function to get all availiable resolutions on the monitor
 def get_available_resolutions():
     resolutions = set()  # Use a set to avoid duplicate entries
      
@@ -34,21 +36,21 @@ def get_available_resolutions():
             break
 
     
-    # Convert resolutions to a list of tuples (width, height)
+    #* Convert resolutions to a list of tuples (width, height)
     resolution_tuples = []
     for res in resolutions:
         width, height = map(int, res.split('x'))
         resolution_tuples.append((width, height))
 
-    # Sort by area (width * height) in descending order
+    #* Sort by area (width * height) in descending order
     sorted_resolutions = sorted(resolution_tuples, key=lambda x: x[0] * x[1], reverse=True)
     
-    # Convert back to formatted strings
+    #* Convert back to formatted strings
     sorted_resolution_strings = [f"{width}x{height}" for width, height in sorted_resolutions]
 
     return sorted_resolution_strings
 
-
+#! Function to set the selected resolution
 def set_resolution(width, height):
     devmode = pywintypes.DEVMODEType()
     devmode.PelsWidth = width
@@ -56,17 +58,18 @@ def set_resolution(width, height):
     devmode.Fields = win32con.DM_PELSWIDTH | win32con.DM_PELSHEIGHT
 
     result = win32api.ChangeDisplaySettings(devmode, 0)
-    if result == win32con.DISP_CHANGE_SUCCESSFUL:
-        print("Resolution changed successfully.")
-    elif result == win32con.DISP_CHANGE_RESTART:
-        print("You need to restart your computer for the changes to take effect.")
-    else:
-        print("Failed to change resolution.")
-        
+    #if result == win32con.DISP_CHANGE_SUCCESSFUL:
+    #   print("Resolution changed successfully.")
+    #elif result == win32con.DISP_CHANGE_RESTART:
+    #    print("You need to restart your computer for the changes to take effect.")
+    #else:
+    #    print("Failed to change resolution.")
+
+#! Function for when user selects a resolution from drop down       
 def on_select(event, combo):
     global g_width, g_height
     selected_resolution = combo.get()
-    print(f"Selected resolution: {selected_resolution}")
+    #print(f"Selected resolution: {selected_resolution}")
     
     
     
@@ -90,27 +93,27 @@ def on_select(event, combo):
        # reslo = [device_name, int(width), int(height)]
         
       #  print(f"Device Name: {device_name}")
-        print(f"Width: {width}")
-        print(f"Height: {height}")
+        #print(f"Width: {width}")
+        #print(f"Height: {height}")
        # print(f"Resulting Array: {reslo}")
         g_width = int(width)
         g_height = int(height)
         
-        print(g_height)
-        print(g_width)
+        #print(g_height)
+        #print(g_width)
         #set_resolution(int(width), int(height))
     #set_resolution()
         
-# apply button
+#! Function to apply the selected resolution and hide the window
 def apply_changes(lbl_status):
     global g_width, g_height
     window_title = "VALORANT  "
     global original_style
-    window_handle = ctypes.windll.user32.FindWindowW(None, window_title)
+    window_handle = ctypes.windll.user32.FindWindowW(None, window_title) # look for the window title of valorant
     if window_handle == 0:
         lbl_status.config(text="Valorant not found")
     else:
-        #change monitor resolution
+        #* change monitor resolution
         set_resolution(g_width, g_height)
         #print(f"width = {g_width}")
         #print(f"height = {g_height}")
@@ -123,7 +126,8 @@ def apply_changes(lbl_status):
         ctypes.windll.user32.ShowWindow(window_handle, ctypes.c_int(3))
         lbl_status.config(text="True stretched applied")
      
-#unapply
+#! Function to return monitor resolution to 1920x1080 and to show valorants window
+#TODO: update this so the user can input there own default resoloution or add a slight function to get the monitor defualt reso
 def unapply_changes(lbl_status, combobox):
     window_title = "VALORANT  "
     window_handle = ctypes.windll.user32.FindWindowW(None, window_title)
@@ -146,7 +150,9 @@ def unapply_changes(lbl_status, combobox):
         combobox.set(default_resolution)
         
         
-#gui        
+        
+#! Function to create the GUI
+#TODO: At a later time update this so it is in a seperate py file       
 def gui():
     root = tk.Tk()
     root.title("ValorantTS_HI") # window lalbel
@@ -168,7 +174,7 @@ def gui():
     combobox = ttk.Combobox(frame, values=get_available_resolutions())
     combobox.bind("<<ComboboxSelected>>",lambda event: on_select(event, combobox)) 
     combobox.grid(row=1, column=0, columnspan=2, pady=10)  # Place combobox in row 1
-    #default resolution
+    #* default resolution
     default_resolution = "1920x1080"
     combobox.set(default_resolution)
     
@@ -183,7 +189,7 @@ def gui():
 
     root.mainloop()
 
-# main loop
+#! main loop
 if __name__ == "__main__":
     #print(get_available_resolutions())
     #set_resolution(1920, 1080)
