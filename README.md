@@ -20,7 +20,8 @@ This project provides a true stretched resolution experience for the game, enhan
 
 
 > This Script 1280 x 1024:
->   ![Pasted image 20241107175621](https://github.com/user-attachments/assets/ebf288fa-4da5-4d10-81d9-bad363e1a407)
+>  ![Pasted image 20240722161446](https://github.com/user-attachments/assets/439bfc39-79cf-4adc-a371-f36624ea52a0)
+
 
 	(NOTE: on the latest patch they fixed some bugs, so now the game doesn’t stretch anymore, you’ll be left with black bars....)
 ## Table of Contents
