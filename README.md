@@ -27,9 +27,11 @@ This project provides a true stretched resolution experience for the game, enhan
 ## Installation
 
 step 1: make you game windowed, with fill, and on you monitors default resolution 
+
 ![Pasted image 20241107175927](https://github.com/user-attachments/assets/924f9e81-b4c5-4700-8028-8a0cc5a85172)
 
 Step 2: select the resolution from the script and hit apply:
+
 ![Pasted image 20241107175959](https://github.com/user-attachments/assets/bff51663-f31d-430f-b237-99e8e1162588)
 
 
