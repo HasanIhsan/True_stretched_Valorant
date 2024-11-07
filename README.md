@@ -5,9 +5,10 @@
 # NOTE:
 - on the latest patch, riot fixed something/did something where the game doesn’t stretch to fit the monitors resolutions... if you wanted 4:3 you’ll be left with black bars....
 - from riot themselves:
-- ![image](https://github.com/user-attachments/assets/b82ff13b-1e76-42bb-8ab5-13befac658a4)
+ ![bug](https://github.com/user-attachments/assets/a8659505-77e6-486d-8ad6-cd08ab9e37db)
 
-	( i mean what can i say riot does love taking away things we love...)
+
+	 > ( i mean what can i say riot does love taking away things we love...)
 
 ## Description
 
