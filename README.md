@@ -4,6 +4,10 @@
 [![GitHub issues](https://img.shields.io/github/issues/username/repo)](https://github.com/HasanIhsan/True_stretched_Valorant/issues)
 # NOTE:
 - on the latest patch, riot fixed something/did something where the game doesn’t stretch to fit the monitors resolutions... if you wanted 4:3 you’ll be left with black bars....
+- from riot themselves:
+- ![image](https://github.com/user-attachments/assets/b82ff13b-1e76-42bb-8ab5-13befac658a4)
+
+	( i mean what can i say riot does love taking away things we love...)
 
 ## Description
 
