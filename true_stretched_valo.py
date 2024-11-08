@@ -107,49 +107,35 @@ def on_select(event, combo):
 #! Function to apply the selected resolution and hide the window
 def apply_changes(lbl_status):
     global g_width, g_height
-    window_title = "VALORANT  "
-    global original_style
-    window_handle = ctypes.windll.user32.FindWindowW(None, window_title) # look for the window title of valorant
-    if window_handle == 0:
-        lbl_status.config(text="Valorant not found")
-    else:
-        #* change monitor resolution
-        set_resolution(g_width, g_height)
-        #print(f"width = {g_width}")
-        #print(f"height = {g_height}")
-        
-        time.sleep(1) #delay for 2 seconds
-        #( make windowed application fullscreen)
-        original_style = ctypes.windll.user32.GetWindowLongW(window_handle, ctypes.c_int(-16))
-        new_style = original_style & ~0x00800000 & ~0x00040000
-        ctypes.windll.user32.SetWindowLongW(window_handle, ctypes.c_int(-16), new_style)
-        ctypes.windll.user32.ShowWindow(window_handle, ctypes.c_int(3))
-        lbl_status.config(text="True stretched applied")
-     
+    
+    
+    #* change monitor resolution
+    set_resolution(g_width, g_height)
+    #print(f"width = {g_width}")
+    #print(f"height = {g_height}")
+    
+    time.sleep(1) #delay for 2 seconds
+    #( make windowed application fullscreen)
+    lbl_status.config(text="True stretched applied")
+    
 #! Function to return monitor resolution to 1920x1080 and to show valorants window
 #TODO: update this so the user can input there own default resoloution or add a slight function to get the monitor defualt reso
-def unapply_changes(lbl_status, combobox):
-    window_title = "VALORANT  "
-    window_handle = ctypes.windll.user32.FindWindowW(None, window_title)
-
-    if window_handle == 0:
-        lbl_status.config(text="Valorant not found")
-    else:
-        #unapply changes
-        ctypes.windll.user32.SetWindowLongW(window_handle, ctypes.c_int(-16), original_style)
-        lbl_status.config(text="True stretch removed") 
+def unapply_changes(lbl_status):
+  
+    lbl_status.config(text="True stretch removed") 
+    
+    #set monitor resolution to default of (1920 x 1080):
+    #maybe in a future update i'll make it so the user can first set there defualt values
+    time.sleep(1) # sleep for 2 seconds
+    
+    set_resolution(1920, 1080) # default resolution
+    
+    #change the combobox defualt selected resolution
+    #default_resolution = "1920x1080"
+    #combobox.set(default_resolution)
         
-        #set monitor resolution to default of (1920 x 1080):
-        #maybe in a future update i'll make it so the user can first set there defualt values
-        time.sleep(1) # sleep for 2 seconds
-        
-        set_resolution(1920, 1080) # default resolution
-        
-        #change the combobox defualt selected resolution
-        default_resolution = "1920x1080"
-        combobox.set(default_resolution)
-        
-        
+def settings_Button():
+    print("hello")
         
 #! Function to create the GUI
 #TODO: At a later time update this so it is in a seperate py file       
@@ -171,18 +157,21 @@ def gui():
     lbl_status = ttk.Label(frame, text="")
     lbl_status.grid(row=3, columnspan=2, pady=(10, 0))  # Adjust padding if needed
 
-    combobox = ttk.Combobox(frame, values=get_available_resolutions())
-    combobox.bind("<<ComboboxSelected>>",lambda event: on_select(event, combobox)) 
-    combobox.grid(row=1, column=0, columnspan=2, pady=10)  # Place combobox in row 1
-    #* default resolution
-    default_resolution = "1920x1080"
-    combobox.set(default_resolution)
+    #* Combo box
+    #combobox = ttk.Combobox(frame, values=get_available_resolutions())
+    #combobox.bind("<<ComboboxSelected>>",lambda event: on_select(event, combobox)) 
+    #combobox.grid(row=1, column=0, columnspan=2, pady=10)  # Place combobox in row 1
+    # default resolution
+    #default_resolution = "1920x1080"
+    #combobox.set(default_resolution)
     
-    #combobox.pack(pady=10, padx=10)
+    btn_settings = ttk.Button(frame, text="Settings", compound=tk.CENTER, command=lambda: settings_Button())
+    btn_settings.grid(row=1, column=0, pady=(10, 0))  # Place Apply button in row 1
+       
     btn_apply = ttk.Button(frame, text="Apply", compound=tk.LEFT, command=lambda: apply_changes(lbl_status))
     btn_apply.grid(row=2, column=0, pady=(10, 0))  # Place Apply button in row 2
     
-    btn_unapply = ttk.Button(frame, text="Unapply", compound=tk.LEFT, command=lambda: unapply_changes(lbl_status, combobox))
+    btn_unapply = ttk.Button(frame, text="Unapply", compound=tk.LEFT, command=lambda: unapply_changes(lbl_status))
     btn_unapply.grid(row=2, column=1, pady=(10, 0))  # Place Unapply button in row 2
     
    
