@@ -32,16 +32,16 @@ def cu_JSON(file_location, width=g_width, height=g_height):
             
         print("settings.json created with default values.")
     else:
-        # Load the existing settings
+        #* Load the existing settings
         with open(settings_file, "r") as f:
             data = json.load(f)
         
-        # Update the settings with new values
+        #* Update the settings with new values
         data["file_location"] = file_location
         data["width"] = width
         data["height"] = height
 
-        # Save the updated settings back to the file
+        #* Save the updated settings back to the file
         with open(settings_file, "w") as f:
             json.dump(data, f, indent=4)
             
