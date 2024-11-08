@@ -5,6 +5,7 @@ import ctypes
 import time
 import tkinter as tk
 from tkinter import ttk
+from tkinter import filedialog 
  
 #* hard coded default values (again will try to change this so the script automaticly gets the defualt reso) 
 g_width = 1920
@@ -170,10 +171,19 @@ def settings_Button():
     resolution_label = tk.Label(resolution_frame, text="Preferred resolution:")
     resolution_label.grid(row=0, column=0, padx=5, sticky="w")
 
+    #* Combo box
+    #combobox = ttk.Combobox(frame, values=get_available_resolutions())
+    #combobox.bind("<<ComboboxSelected>>",lambda event: on_select(event, combobox)) 
+    #combobox.grid(row=1, column=0, columnspan=2, pady=10)  # Place combobox in row 1
+ 
+    
     # Combo box for selecting resolution
-    resolution_combo = ttk.Combobox(resolution_frame, values=["1920x1080", "1600x900", "1280x720", "800x600"])
+    resolution_combo = ttk.Combobox(resolution_frame, values=get_available_resolutions())
+    resolution_combo.bind("<<ComboboxSelected>>",lambda event: on_select(event, resolution_combo)) 
     resolution_combo.grid(row=0, column=1, padx=5)
-    resolution_combo.set("Select resolution")
+    # default resolution
+    default_resolution = "1920x1080"
+    resolution_combo.set(default_resolution)
 
     # Modify button
     modify_button = tk.Button(root, text="Modify", width=10)
@@ -201,13 +211,6 @@ def gui():
     lbl_status = ttk.Label(frame, text="")
     lbl_status.grid(row=3, columnspan=2, pady=(10, 0))  # Adjust padding if needed
 
-    #* Combo box
-    #combobox = ttk.Combobox(frame, values=get_available_resolutions())
-    #combobox.bind("<<ComboboxSelected>>",lambda event: on_select(event, combobox)) 
-    #combobox.grid(row=1, column=0, columnspan=2, pady=10)  # Place combobox in row 1
-    # default resolution
-    #default_resolution = "1920x1080"
-    #combobox.set(default_resolution)
     
     btn_settings = ttk.Button(frame, text="Settings", compound=tk.CENTER, command=lambda: settings_Button())
     btn_settings.grid(row=1, column=0, pady=(10, 0))  # Place Apply button in row 1
