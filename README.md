@@ -2,8 +2,13 @@
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![GitHub issues](https://img.shields.io/github/issues/username/repo)](https://github.com/HasanIhsan/True_stretched_Valorant/issues)
-# NOTE:
+# NOTE: ( will get this updated for new patch)
 - on the latest patch, riot fixed something/did something where the game doesn’t stretch to fit the monitors resolutions... if you wanted 4:3 you’ll be left with black bars....
+- from riot themselves:
+ ![bug](https://github.com/user-attachments/assets/a8659505-77e6-486d-8ad6-cd08ab9e37db)
+
+
+	 > ( i mean what can i say riot does love taking away things we love...)
 
 ## Description
 
@@ -11,10 +16,13 @@ This project provides a true stretched resolution experience for the game, enhan
 
 ## Showcase:
 > Original 1280 x 1024:
-> 	![[Pasted image 20241107174759.png]]
+> 	![Pasted image 20241107174759](https://github.com/user-attachments/assets/447e5a0d-529f-4560-bdbf-2ead39d48ed4)
+
 
 > This Script 1280 x 1024:
->   ![[Pasted image 20241107175621.png]]
+>  ![Pasted image 20240722161446](https://github.com/user-attachments/assets/439bfc39-79cf-4adc-a371-f36624ea52a0)
+
+
 	(NOTE: on the latest patch they fixed some bugs, so now the game doesn’t stretch anymore, you’ll be left with black bars....)
 ## Table of Contents
 
@@ -25,9 +33,13 @@ This project provides a true stretched resolution experience for the game, enhan
 ## Installation
 
 step 1: make you game windowed, with fill, and on you monitors default resolution 
-![[Pasted image 20241107175927.png]]
+
+![Pasted image 20241107175927](https://github.com/user-attachments/assets/924f9e81-b4c5-4700-8028-8a0cc5a85172)
+
 Step 2: select the resolution from the script and hit apply:
-![[Pasted image 20241107175959.png]]
+
+![Pasted image 20241107175959](https://github.com/user-attachments/assets/bff51663-f31d-430f-b237-99e8e1162588)
+
 
 
 
