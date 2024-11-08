@@ -1,7 +1,6 @@
 import win32api
 import win32con
 import pywintypes
-import ctypes
 import time
 import tkinter as tk
 from tkinter import ttk
@@ -11,46 +10,7 @@ from tkinter import filedialog
 g_width = 1920
 g_height = 1080 
  
-#! Function to get all availiable resolutions on the monitor
-def get_available_resolutions():
-    resolutions = set()  # Use a set to avoid duplicate entries
-     
-    
-    i = 0
-    while True:  # Loop through display devices
-        try:
-            device_name = win32api.EnumDisplayDevices(None, i)  # Get the display device information
-            if not device_name.DeviceName:  # If no device name is found, break the loop
-                break
-            
-            mode_num = 0  # Initialize the mode number to start enumerating display settings
-            while True:  # Loop through display settings for the current device
-                try:
-                    mode = win32api.EnumDisplaySettings(device_name.DeviceName, mode_num)  # Get the display settings for the current mode
-                    resolution = f"{mode.PelsWidth}x{mode.PelsHeight}"  # Format the resolution as a string
-                    resolutions.add(resolution)  # Add the resolution to the set to avoid duplicates
-                    mode_num += 1  #   next display setting
-                except pywintypes.error:  
-                    break
-            i += 1  #   next display device
-        except pywintypes.error:   
-            break
-
-    
-    #* Convert resolutions to a list of tuples (width, height)
-    resolution_tuples = []
-    for res in resolutions:
-        width, height = map(int, res.split('x'))
-        resolution_tuples.append((width, height))
-
-    #* Sort by area (width * height) in descending order
-    sorted_resolutions = sorted(resolution_tuples, key=lambda x: x[0] * x[1], reverse=True)
-    
-    #* Convert back to formatted strings
-    sorted_resolution_strings = [f"{width}x{height}" for width, height in sorted_resolutions]
-
-    return sorted_resolution_strings
-
+ 
 #! Function to set the selected resolution
 def set_resolution(width, height):
     devmode = pywintypes.DEVMODEType()
@@ -66,44 +26,8 @@ def set_resolution(width, height):
     #else:
     #    print("Failed to change resolution.")
 
-#! Function for when user selects a resolution from drop down       
-def on_select(event, combo):
-    global g_width, g_height
-    selected_resolution = combo.get()
-    #print(f"Selected resolution: {selected_resolution}")
-    
-    
-    
-    # Split the selected_resolution into parts
-    #width, height = map(int, selected_resolution.split('x'))
-    
-    # Store the results in an array
-    #reslo = [width, height]
-    
-    # Split the selected_resolution into parts
-    parts = selected_resolution.split(' x ')
-    if len(parts) == 1:
-        #device_name = parts[0]
-        resolution = parts[0]
-        
-         
-        # Split resolution into width and height
-        width, height = resolution.split('x')
-        
-        # Store the results in an array
-       # reslo = [device_name, int(width), int(height)]
-        
-      #  print(f"Device Name: {device_name}")
-        #print(f"Width: {width}")
-        #print(f"Height: {height}")
-       # print(f"Resulting Array: {reslo}")
-        g_width = int(width)
-        g_height = int(height)
-        
-        #print(g_height)
-        #print(g_width)
-        #set_resolution(int(width), int(height))
-    #set_resolution()
+ 
+   
         
 #! Function to apply the selected resolution and hide the window
 def apply_changes(lbl_status):
@@ -134,8 +58,84 @@ def unapply_changes(lbl_status):
     #change the combobox defualt selected resolution
     #default_resolution = "1920x1080"
     #combobox.set(default_resolution)
-        
+
+#! Function which holds the settings gui/ functions
+ #TODO: so i will add a JSON file for settings to modify this so it will get the settings from the json file
 def settings_Button():
+    #! Function for when user selects a resolution from drop down       
+    def on_select(event, combo):
+        global g_width, g_height
+        selected_resolution = combo.get()
+        #print(f"Selected resolution: {selected_resolution}")
+        
+        
+        
+        # Split the selected_resolution into parts
+        #width, height = map(int, selected_resolution.split('x'))
+        
+        # Store the results in an array
+        #reslo = [width, height]
+        
+        # Split the selected_resolution into parts
+        parts = selected_resolution.split(' x ')
+        if len(parts) == 1:
+            #device_name = parts[0]
+            resolution = parts[0]
+            
+            
+            # Split resolution into width and height
+            width, height = resolution.split('x')
+            
+            # Store the results in an array
+        # reslo = [device_name, int(width), int(height)]
+            
+    
+            g_width = int(width)
+            g_height = int(height)
+            
+            print(g_height)
+            print(g_width)
+            #set_resolution(int(width), int(height))
+    #! Function to get all availiable resolutions on the monitor
+    def get_available_resolutions():
+        resolutions = set()  # Use a set to avoid duplicate entries
+        
+        
+        i = 0
+        while True:  # Loop through display devices
+            try:
+                device_name = win32api.EnumDisplayDevices(None, i)  # Get the display device information
+                if not device_name.DeviceName:  # If no device name is found, break the loop
+                    break
+                
+                mode_num = 0  # Initialize the mode number to start enumerating display settings
+                while True:  # Loop through display settings for the current device
+                    try:
+                        mode = win32api.EnumDisplaySettings(device_name.DeviceName, mode_num)  # Get the display settings for the current mode
+                        resolution = f"{mode.PelsWidth}x{mode.PelsHeight}"  # Format the resolution as a string
+                        resolutions.add(resolution)  # Add the resolution to the set to avoid duplicates
+                        mode_num += 1  #   next display setting
+                    except pywintypes.error:  
+                        break
+                i += 1  #   next display device
+            except pywintypes.error:   
+                break
+
+        
+        #* Convert resolutions to a list of tuples (width, height)
+        resolution_tuples = []
+        for res in resolutions:
+            width, height = map(int, res.split('x'))
+            resolution_tuples.append((width, height))
+
+        #* Sort by area (width * height) in descending order
+        sorted_resolutions = sorted(resolution_tuples, key=lambda x: x[0] * x[1], reverse=True)
+        
+        #* Convert back to formatted strings
+        sorted_resolution_strings = [f"{width}x{height}" for width, height in sorted_resolutions]
+
+        return sorted_resolution_strings
+
     # Create the main window
     root = tk.Tk()
     root.title("Settings")
@@ -171,16 +171,12 @@ def settings_Button():
     resolution_label = tk.Label(resolution_frame, text="Preferred resolution:")
     resolution_label.grid(row=0, column=0, padx=5, sticky="w")
 
-    #* Combo box
-    #combobox = ttk.Combobox(frame, values=get_available_resolutions())
-    #combobox.bind("<<ComboboxSelected>>",lambda event: on_select(event, combobox)) 
-    #combobox.grid(row=1, column=0, columnspan=2, pady=10)  # Place combobox in row 1
- 
-    
+
     # Combo box for selecting resolution
     resolution_combo = ttk.Combobox(resolution_frame, values=get_available_resolutions())
     resolution_combo.bind("<<ComboboxSelected>>",lambda event: on_select(event, resolution_combo)) 
     resolution_combo.grid(row=0, column=1, padx=5)
+    
     # default resolution
     default_resolution = "1920x1080"
     resolution_combo.set(default_resolution)
