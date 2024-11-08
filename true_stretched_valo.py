@@ -2,6 +2,9 @@ import win32api
 import win32con
 import pywintypes
 import time
+import json
+import os
+
 import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog 
@@ -9,7 +12,41 @@ from tkinter import filedialog
 #* hard coded default values (again will try to change this so the script automaticly gets the defualt reso) 
 g_width = 1920
 g_height = 1080 
- 
+g_folderPathGameSettings = ""
+
+#!Function to create and update the JSON file
+def cu_JSON(file_location, width=g_width, height=g_height):
+    #* Define the path to the settings file
+    settings_file = "settings.json"
+
+    #* Check if settings.json exists in the current directory
+    if not os.path.exists(settings_file):
+        #* Create the JSON file with default values
+        data = {
+            "file_location": file_location,
+            "width": width,
+            "height": height
+        }
+        with open(settings_file, "w") as f:
+            json.dump(data, f, indent=4)
+            
+        print("settings.json created with default values.")
+    else:
+        # Load the existing settings
+        with open(settings_file, "r") as f:
+            data = json.load(f)
+        
+        # Update the settings with new values
+        data["file_location"] = file_location
+        data["width"] = width
+        data["height"] = height
+
+        # Save the updated settings back to the file
+        with open(settings_file, "w") as f:
+            json.dump(data, f, indent=4)
+            
+        print("settings.json updated.")
+    
  
 #! Function to set the selected resolution
 def set_resolution(width, height):
@@ -98,6 +135,7 @@ def settings_Button():
             print(g_height)
             print(g_width)
             #set_resolution(int(width), int(height))
+        return width, height
             
             
     #! Function to get all availiable resolutions on the monitor
@@ -143,7 +181,14 @@ def settings_Button():
 
     #! Function for the modify button
     def modify_btn(lbl_status):
-        lbl_status.config(text="File modified") 
+        lbl_status.config(text="File modified")
+        
+        #TODO: on start up create a JSON file with defualt settings
+        #* the file will hold
+        # settingsLocation :directorypath
+        # rWidth: the stretched width
+        # rHeight: the stretched width 
+        cu_JSON(g_folderPathGameSettings, g_width, g_height)
         
         
         
@@ -169,9 +214,15 @@ def settings_Button():
 
     # Function to open file dialog
     def select_file():
+        global g_folderPathGameSettings
+        
         folder_path = filedialog.askdirectory()
         file_entry.delete(0, tk.END)
         file_entry.insert(0, folder_path)
+        
+        g_folderPathGameSettings = folder_path
+        
+        
 
     file_button = tk.Button(file_frame, text="...", command=select_file)
     file_button.grid(row=0, column=2, padx=5)
@@ -235,11 +286,8 @@ def gui():
    
 
     root.mainloop()
-
+ 
 
 #! main loop
 if __name__ == "__main__":
-    #print(get_available_resolutions())
-    #set_resolution(1920, 1080)
-    #TODO: on start up create a JSON file with defualt settings
     gui()
