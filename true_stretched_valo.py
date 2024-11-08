@@ -62,6 +62,8 @@ def unapply_changes(lbl_status):
 #! Function which holds the settings gui/ functions
  #TODO: so i will add a JSON file for settings to modify this so it will get the settings from the json file
 def settings_Button():
+    
+    
     #! Function for when user selects a resolution from drop down       
     def on_select(event, combo):
         global g_width, g_height
@@ -96,6 +98,8 @@ def settings_Button():
             print(g_height)
             print(g_width)
             #set_resolution(int(width), int(height))
+            
+            
     #! Function to get all availiable resolutions on the monitor
     def get_available_resolutions():
         resolutions = set()  # Use a set to avoid duplicate entries
@@ -136,6 +140,14 @@ def settings_Button():
 
         return sorted_resolution_strings
 
+
+    #! Function for the modify button
+    def modify_btn(lbl_status):
+        lbl_status.config(text="File modified") 
+        
+        
+        
+        
     # Create the main window
     root = tk.Tk()
     root.title("Settings")
@@ -175,14 +187,17 @@ def settings_Button():
     # Combo box for selecting resolution
     resolution_combo = ttk.Combobox(resolution_frame, values=get_available_resolutions())
     resolution_combo.bind("<<ComboboxSelected>>",lambda event: on_select(event, resolution_combo)) 
-    resolution_combo.grid(row=0, column=1, padx=5)
+    resolution_combo.grid(row=0, column=2, padx=5)
     
     # default resolution
     default_resolution = "1920x1080"
     resolution_combo.set(default_resolution)
-
+    
+    lbl_status = ttk.Label(resolution_frame, text="")
+    lbl_status.grid(row=1, column=0, padx=10)
+    
     # Modify button
-    modify_button = tk.Button(root, text="Modify", width=10)
+    modify_button = tk.Button(root, text="Modify", command=lambda: modify_btn(lbl_status))
     modify_button.pack(pady=10)
 
     root.mainloop()
@@ -221,8 +236,10 @@ def gui():
 
     root.mainloop()
 
+
 #! main loop
 if __name__ == "__main__":
     #print(get_available_resolutions())
     #set_resolution(1920, 1080)
+    #TODO: on start up create a JSON file with defualt settings
     gui()
