@@ -116,13 +116,13 @@ def apply_changes(lbl_status):
     
     time.sleep(1) #delay for 2 seconds
     #( make windowed application fullscreen)
-    lbl_status.config(text="True stretched applied")
+    lbl_status.config(text="Changed Monitor resolution to stretched")
     
 #! Function to return monitor resolution to 1920x1080 and to show valorants window
 #TODO: update this so the user can input there own default resoloution or add a slight function to get the monitor defualt reso
 def unapply_changes(lbl_status):
   
-    lbl_status.config(text="True stretch removed") 
+    lbl_status.config(text="Change Monitor resolution to default") 
     
     #set monitor resolution to default of (1920 x 1080):
     #maybe in a future update i'll make it so the user can first set there defualt values
@@ -135,7 +135,51 @@ def unapply_changes(lbl_status):
     #combobox.set(default_resolution)
         
 def settings_Button():
-    print("hello")
+    # Create the main window
+    root = tk.Tk()
+    root.title("Settings")
+    root.geometry("400x200")
+
+    # Label for the main title
+    title_label = tk.Label(root, text="Settings", font=("Arial", 14))
+    title_label.pack(pady=5)
+
+    # Frame for settings file location
+    file_frame = tk.Frame(root)
+    file_frame.pack(pady=5)
+
+    file_label = tk.Label(file_frame, text="Settings file location:")
+    file_label.grid(row=0, column=0, padx=5, sticky="w")
+
+    file_entry = tk.Entry(file_frame, width=30)
+    file_entry.grid(row=0, column=1, padx=5)
+
+    # Function to open file dialog
+    def select_file():
+        folder_path = filedialog.askdirectory()
+        file_entry.delete(0, tk.END)
+        file_entry.insert(0, folder_path)
+
+    file_button = tk.Button(file_frame, text="...", command=select_file)
+    file_button.grid(row=0, column=2, padx=5)
+
+    # Frame for preferred resolution
+    resolution_frame = tk.Frame(root)
+    resolution_frame.pack(pady=5)
+
+    resolution_label = tk.Label(resolution_frame, text="Preferred resolution:")
+    resolution_label.grid(row=0, column=0, padx=5, sticky="w")
+
+    # Combo box for selecting resolution
+    resolution_combo = ttk.Combobox(resolution_frame, values=["1920x1080", "1600x900", "1280x720", "800x600"])
+    resolution_combo.grid(row=0, column=1, padx=5)
+    resolution_combo.set("Select resolution")
+
+    # Modify button
+    modify_button = tk.Button(root, text="Modify", width=10)
+    modify_button.pack(pady=10)
+
+    root.mainloop()
         
 #! Function to create the GUI
 #TODO: At a later time update this so it is in a seperate py file       
